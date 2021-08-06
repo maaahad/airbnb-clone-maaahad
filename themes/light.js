@@ -32,7 +32,7 @@ export default {
   shadows: {
     search: "rgba(0,0,0,0.18) 0px 2px 4px",
   },
-  zindex: {
+  zIndex: {
     nav: 1000,
   },
 };

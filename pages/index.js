@@ -5,6 +5,9 @@ import Head from "next/head";
 
 // react-jss
 
+// components
+import Hero from "../components/home/hero";
+
 // css
 
 export default function Home() {
@@ -16,9 +19,8 @@ export default function Home() {
           name="description"
           content="This is a clone of Airbnb by Muhammed Ahad"
         />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div>This the content of Homepage</div>
+      <Hero />
     </div>
   );
 }
