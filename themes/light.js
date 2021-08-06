@@ -4,6 +4,7 @@ export default {
       white: "#ffffff",
       black: "#000000",
     },
+    signature: "#ff385c",
   },
   typography: {
     fontFamily:
@@ -26,7 +27,7 @@ export default {
   border: {
     primary: "1px solid #dddddd",
   },
-  shape: {
+  shapes: {
     round: "50%",
   },
   shadows: {

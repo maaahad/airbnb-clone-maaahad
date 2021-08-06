@@ -14,6 +14,8 @@ const useStyles = createUseStyles((theme) => ({
   },
 }));
 
+// image courtsy : https://pixabay.com/illustrations/man-stairs-heaven-old-man-stairway-5640540/
+
 export default function Hero() {
   const classes = useStyles();
   return (
