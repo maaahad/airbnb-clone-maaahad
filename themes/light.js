@@ -22,6 +22,7 @@ export default {
     color: {
       primary: "#f7f7f7",
       secondary: "#ebebeb",
+      transparent: "#263e58",
     },
   },
   border: {
