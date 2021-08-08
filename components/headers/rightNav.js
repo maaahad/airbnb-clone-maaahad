@@ -19,32 +19,41 @@ const useStyles = createUseStyles((theme) => ({
     "& > * + *": {
       marginLeft: 5,
     },
+    // This should be belongs to only translate and user
+    border: theme.border.primary,
+    borderRadius: 21,
+    "&:hover": {
+      boxShadow: theme.shadows.hover,
+    },
   },
   host: {
-    height: 42,
-    width: "auto",
-    padding: 12,
-    borderRadius: 21,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    "&:hover": {
+    display: "none",
+    "& > a": {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      height: 42,
+      width: "auto",
+      padding: 12,
+      borderRadius: 21,
+      ...theme.typography.navText,
+    },
+    "& > a:hover": {
       backgroundColor: theme.background.color.transparent,
     },
   },
   translate: {
-    width: 42,
-    height: 42,
-    borderRadius: theme.shapes.round,
-    padding: 12,
-    "&:hover": {
-      backgroundColor: theme.background.color.transparent,
-    },
     "& > a": {
-      // todo: Fix the font :::
+      width: 42,
+      height: 42,
+      borderRadius: theme.shapes.round,
+      padding: 12,
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
+    },
+    "& > a:hover": {
+      backgroundColor: theme.background.color.transparent,
     },
     "& > a > svg": {
       width: 16,
@@ -92,6 +101,12 @@ const useStyles = createUseStyles((theme) => ({
     position: "absolute",
     top: 2,
     right: 4,
+  },
+  //   media condition to hide host or translate on different screen size
+  "@media screen and (min-width: 700px)": {
+    host: {
+      display: "block",
+    },
   },
 }));
 

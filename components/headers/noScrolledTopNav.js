@@ -7,6 +7,8 @@ import { createUseStyles } from "react-jss";
 
 // components
 import RightNav from "./rightNav";
+import MobileSearchInput from "./mobileSearchInput";
+import Logo from "./logo";
 
 // css
 
@@ -18,9 +20,12 @@ const useStyles = createUseStyles((theme) => ({
     flexFlow: "row nowrap",
     alignItems: "center",
     justifyContent: "space-between",
+    "& > * + *": {
+      marginLeft: 10,
+    },
   },
   mobileSearchInput: {
-    display: "block",
+    flex: 1,
   },
   "@media screen and (min-width: 743px)": {
     mobileSearchInput: {
@@ -33,10 +38,10 @@ export default function NoScrolledTopNav() {
   const classes = useStyles();
   return (
     <div className={classes.noScrolledTopNav}>
-      <div>Left Nav</div>
+      <Logo />
       {/* input options when vw < 743 */}
       <div className={classes.mobileSearchInput}>
-        Search Input on vw less than 743
+        <MobileSearchInput />
       </div>
       <RightNav />
     </div>
