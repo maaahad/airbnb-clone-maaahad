@@ -12,6 +12,7 @@ export default {
     color: {
       primary: "#222222",
       secondary: "#717171",
+      tertiary: "#99a5b2",
     },
     // font
     fontSize: "14px",
@@ -19,8 +20,13 @@ export default {
     // title, subtitle, subtitle1, subtitle2
     navText: {
       fontSize: "14px",
-      fontWeight: "600",
       lineHeight: "18px",
+      fontWeight: "600",
+    },
+    linkText: {
+      fontSize: "16px",
+      lineHeight: "20px",
+      fontWeight: "300",
     },
   },
   background: {

@@ -9,7 +9,6 @@ import { createUseStyles } from "react-jss";
 import RightNav from "./rightNav";
 import MobileSearchInput from "./mobileSearchInput";
 import Logo from "./logo";
-
 // css
 
 const useStyles = createUseStyles((theme) => ({

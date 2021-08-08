@@ -19,12 +19,6 @@ const useStyles = createUseStyles((theme) => ({
     "& > * + *": {
       marginLeft: 5,
     },
-    // This should be belongs to only translate and user
-    border: theme.border.primary,
-    borderRadius: 21,
-    "&:hover": {
-      boxShadow: theme.shadows.hover,
-    },
   },
   host: {
     display: "none",
@@ -70,6 +64,9 @@ const useStyles = createUseStyles((theme) => ({
     flexFlow: "row nowrap",
     alignItems: "center",
     justifyContent: "space-between",
+    border: theme.border.primary,
+    borderRadius: 21,
+    boxShadow: theme.shadows.hover,
     padding: {
       left: 12,
       right: 6,
@@ -78,7 +75,7 @@ const useStyles = createUseStyles((theme) => ({
       display: "flex",
       color: theme.palette.common.black,
     },
-    "& > a:hover": {
+    "&:hover": {
       cursor: "pointer",
     },
     "& > a:nth-of-type(1) > svg": {
@@ -99,8 +96,8 @@ const useStyles = createUseStyles((theme) => ({
     borderRadius: theme.shapes.round,
     backgroundColor: theme.palette.signature,
     position: "absolute",
-    top: 2,
-    right: 4,
+    top: 1,
+    right: 2,
   },
   //   media condition to hide host or translate on different screen size
   "@media screen and (min-width: 700px)": {
@@ -119,6 +116,7 @@ export default function RightNav() {
           <a>Become a host</a>
         </Link>
       </div>
+
       <div className={classes.translate}>
         <Link href="#" passHref>
           <a>
