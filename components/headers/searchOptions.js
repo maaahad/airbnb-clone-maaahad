@@ -1,5 +1,8 @@
 // react
+import React, { useRef } from "react";
 // next
+// clsx
+import clsx from "clsx";
 
 // react-jss
 import { createUseStyles } from "react-jss";
@@ -54,9 +57,39 @@ const useStyles = createUseStyles((theme) => ({
       width: 5,
       height: 2,
       backgroundColor: theme.palette.common.white,
+      opacity: 0,
+      transition: theme.transitions.all,
     },
   },
+  linkHover: {},
+  linkActive: {},
 }));
+
+function Option({ label }) {
+  const classes = useStyles();
+  const optionRef = useRef();
+  const onMouseEnter = (event) => {
+    const animatedDiv = optionRef.current.children[1].firstChild;
+    animatedDiv.style.opacity = "1";
+  };
+  const onMouseLeave = (event) => {
+    const animatedDiv = optionRef.current.children[1].firstChild;
+    animatedDiv.style.opacity = "0";
+  };
+  return (
+    <div
+      ref={optionRef}
+      className={classes.searchOption}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+    >
+      <a>{label}</a>
+      <div className={classes.animatedBorder}>
+        <div></div>
+      </div>
+    </div>
+  );
+}
 
 export default function SearchOptions() {
   const classes = useStyles();
@@ -66,25 +99,10 @@ export default function SearchOptions() {
   return (
     <div className={classes.searchOptions}>
       <div className={classes.offline}>
-        <div className={classes.searchOption}>
-          <a>Places to stay</a>
-          <div className={classes.animatedBorder}>
-            <div></div>
-          </div>
-        </div>
-        <div className={classes.searchOption}>
-          <a>Experiences</a>
-          <div className={classes.animatedBorder}>
-            <div></div>
-          </div>
-        </div>
+        <Option label="Places to stay" />
+        <Option label="Experiences" />
       </div>
-      <div className={classes.searchOption}>
-        <a>Online Experiences</a>
-        <div className={classes.animatedBorder}>
-          <div></div>
-        </div>
-      </div>
+      <Option label="Online Experiences" />
     </div>
   );
 }

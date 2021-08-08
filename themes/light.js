@@ -46,6 +46,9 @@ export default {
     search: "rgba(0, 0, 0, 0.08) 0px 1px 2px, rgba(0, 0, 0, 0.05) 0px 4px 12px",
     hover: "rgba(0,0,0,0.18) 0px 2px 4px",
   },
+  transitions: {
+    all: "all 1s ease-out",
+  },
   zIndex: {
     nav: 1000,
   },
