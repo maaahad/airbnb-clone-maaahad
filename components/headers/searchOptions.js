@@ -16,12 +16,6 @@ const useStyles = createUseStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
   },
-  offline: {
-    display: "flex",
-    flexFlow: "row nowrap",
-    alignItems: "center",
-    justifyContent: "center",
-  },
   searchOption: {
     position: "relative",
     height: 40,
@@ -44,66 +38,56 @@ const useStyles = createUseStyles((theme) => ({
       cursor: "pointer",
     },
   },
-  animatedBorder: (styles) => {
-    console.log(styles);
-    return {
-      // This is activated on hover and onclick
-      position: "absolute",
-      bottom: 2,
-      left: 0,
-      width: "100%",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      "& > div": {
-        backgroundColor: theme.typography.color.tertiary,
-        transition: theme.transition.all,
-        ...styles,
-      },
-    };
-  },
+  bottomBorder: (styles) => ({
+    // This is activated on hover and onclick
+    position: "absolute",
+    bottom: 2,
+    left: 0,
+    width: "100%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    "& > div": {
+      backgroundColor: theme.typography.color.tertiary,
+      transition: theme.transition.all,
+      ...styles,
+    },
+  }),
 }));
-
-const optionStyles = {
-  default: {
-    width: 0,
-    height: 0,
-  },
-  hover: {
-    width: 5,
-    height: 2,
-  },
-  activated: {
-    width: 20,
-    height: 2,
-  },
-};
 
 function Option({
   label,
   optionId,
-  status = "default",
   activateOption = (f) => f,
+  status,
+  activeStyles,
 }) {
-  console.log(optionId, status);
   const theme = useTheme();
-  const [styles, setStyles] = useState(
-    status === "default" ? optionStyles.default : optionStyles.activated
-  );
+  const [styles, setStyles] = useState(activeStyles);
+
+  console.log(optionId, status, styles, activeStyles);
+
   const classes = useStyles(styles);
+
   const onMouseEnter = (event) => {
-    setStyles(optionStyles.hover);
+    status === "default" &&
+      setStyles({
+        width: 5,
+        height: 2,
+      });
   };
+
   const onMouseLeave = (event) => {
-    setStyles(optionStyles.default);
+    status === "default" &&
+      setStyles({
+        width: 0,
+        height: 0,
+      });
   };
   const onClick = (event) => {
-    // setStyles({
-    //   ...optionStyles.activated,
-    //   backgroundColor: theme.palette.common.white,
-    // });
     activateOption(optionId);
   };
+
   return (
     <div
       className={classes.searchOption}
@@ -112,7 +96,7 @@ function Option({
       onClick={onClick}
     >
       <a>{label}</a>
-      <div className={classes.animatedBorder}>
+      <div className={classes.bottomBorder}>
         <div></div>
       </div>
     </div>
@@ -122,9 +106,21 @@ function Option({
 export default function SearchOptions() {
   // this component should control the styling of each option
   // by using a state
+  const optionStyles = {
+    default: {
+      width: 0,
+      height: 0,
+    },
+    activated: {
+      width: 20,
+      height: 2,
+    },
+  };
   const theme = useTheme();
-  const [activeOption, setActiveOption] = useState("");
+  const [activeOption, setActiveOption] = useState("places");
   const classes = useStyles();
+
+  console.log("activeOption, ", activeOption);
 
   const activateOption = (optionId) => {
     setActiveOption(optionId);
@@ -132,25 +128,38 @@ export default function SearchOptions() {
 
   return (
     <div className={classes.searchOptions}>
-      <div className={classes.offline}>
-        <Option
-          label="Places to stay"
-          activateOption={activateOption}
-          optionId="places"
-          status={activeOption === "places" ? "activated" : "default"}
-        />
-        <Option
-          label="Experiences"
-          activateOption={activateOption}
-          optionId="experiences"
-          status={activeOption === "experiences" ? "activated" : "default"}
-        />
-      </div>
+      <Option
+        label="Places to stay"
+        optionId="places"
+        activateOption={activateOption}
+        status={activeOption === "places" ? "activated" : "default"}
+        activeStyles={
+          activeOption === "places"
+            ? optionStyles.activated
+            : optionStyles.default
+        }
+      />
+      <Option
+        label="Experiences"
+        optionId="experiences"
+        activateOption={activateOption}
+        status={activeOption === "experiences" ? "activated" : "default"}
+        activeStyles={
+          activeOption === "experiences"
+            ? optionStyles.activated
+            : optionStyles.default
+        }
+      />
       <Option
         label="Online Experiences"
-        activateOption={activateOption}
         optionId="online"
+        activateOption={activateOption}
         status={activeOption === "online" ? "activated" : "default"}
+        activeStyles={
+          activeOption === "online"
+            ? optionStyles.activated
+            : optionStyles.default
+        }
       />
     </div>
   );
