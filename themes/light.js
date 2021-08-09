@@ -1,4 +1,15 @@
 export default {
+  breakpoints: {
+    xs: "0px",
+    sm: "600px",
+    md: "960px",
+    lg: "1280px",
+    xl: "1920px",
+    // replace navBp1 by sm
+    navBp1: "743px",
+    // replace navBp2 by md
+    navBp2: "950px",
+  },
   palette: {
     common: {
       white: "#ffffff",
@@ -46,8 +57,8 @@ export default {
     search: "rgba(0, 0, 0, 0.08) 0px 1px 2px, rgba(0, 0, 0, 0.05) 0px 4px 12px",
     hover: "rgba(0,0,0,0.18) 0px 2px 4px",
   },
-  transitions: {
-    all: "all 1s ease-out",
+  transition: {
+    all: "all .3s ease-out",
   },
   zIndex: {
     nav: 1000,

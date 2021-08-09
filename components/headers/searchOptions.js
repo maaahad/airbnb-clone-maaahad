@@ -1,11 +1,11 @@
 // react
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 // next
 // clsx
 import clsx from "clsx";
 
 // react-jss
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 
 // css
 const useStyles = createUseStyles((theme) => ({
@@ -44,44 +44,72 @@ const useStyles = createUseStyles((theme) => ({
       cursor: "pointer",
     },
   },
-  animatedBorder: {
-    // This is activated on hover and onclick
-    position: "absolute",
-    bottom: 2,
-    left: 0,
-    width: "100%",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    "& > div": {
-      width: 5,
-      height: 2,
-      backgroundColor: theme.palette.common.white,
-      opacity: 0,
-      transition: theme.transitions.all,
-    },
+  animatedBorder: (styles) => {
+    console.log(styles);
+    return {
+      // This is activated on hover and onclick
+      position: "absolute",
+      bottom: 2,
+      left: 0,
+      width: "100%",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      "& > div": {
+        backgroundColor: theme.typography.color.tertiary,
+        transition: theme.transition.all,
+        ...styles,
+      },
+    };
   },
-  linkHover: {},
-  linkActive: {},
 }));
 
-function Option({ label }) {
-  const classes = useStyles();
-  const optionRef = useRef();
+const optionStyles = {
+  default: {
+    width: 0,
+    height: 0,
+  },
+  hover: {
+    width: 5,
+    height: 2,
+  },
+  activated: {
+    width: 20,
+    height: 2,
+  },
+};
+
+function Option({
+  label,
+  optionId,
+  status = "default",
+  activateOption = (f) => f,
+}) {
+  console.log(optionId, status);
+  const theme = useTheme();
+  const [styles, setStyles] = useState(
+    status === "default" ? optionStyles.default : optionStyles.activated
+  );
+  const classes = useStyles(styles);
   const onMouseEnter = (event) => {
-    const animatedDiv = optionRef.current.children[1].firstChild;
-    animatedDiv.style.opacity = "1";
+    setStyles(optionStyles.hover);
   };
   const onMouseLeave = (event) => {
-    const animatedDiv = optionRef.current.children[1].firstChild;
-    animatedDiv.style.opacity = "0";
+    setStyles(optionStyles.default);
+  };
+  const onClick = (event) => {
+    // setStyles({
+    //   ...optionStyles.activated,
+    //   backgroundColor: theme.palette.common.white,
+    // });
+    activateOption(optionId);
   };
   return (
     <div
-      ref={optionRef}
       className={classes.searchOption}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
+      onClick={onClick}
     >
       <a>{label}</a>
       <div className={classes.animatedBorder}>
@@ -92,17 +120,38 @@ function Option({ label }) {
 }
 
 export default function SearchOptions() {
+  // this component should control the styling of each option
+  // by using a state
+  const theme = useTheme();
+  const [activeOption, setActiveOption] = useState("");
   const classes = useStyles();
-  //  TODO : add animatedBorderHover and animatedBorderActive to simulate
-  // animation
-  // use css animation or transition
+
+  const activateOption = (optionId) => {
+    setActiveOption(optionId);
+  };
+
   return (
     <div className={classes.searchOptions}>
       <div className={classes.offline}>
-        <Option label="Places to stay" />
-        <Option label="Experiences" />
+        <Option
+          label="Places to stay"
+          activateOption={activateOption}
+          optionId="places"
+          status={activeOption === "places" ? "activated" : "default"}
+        />
+        <Option
+          label="Experiences"
+          activateOption={activateOption}
+          optionId="experiences"
+          status={activeOption === "experiences" ? "activated" : "default"}
+        />
       </div>
-      <Option label="Online Experiences" />
+      <Option
+        label="Online Experiences"
+        activateOption={activateOption}
+        optionId="online"
+        status={activeOption === "online" ? "activated" : "default"}
+      />
     </div>
   );
 }

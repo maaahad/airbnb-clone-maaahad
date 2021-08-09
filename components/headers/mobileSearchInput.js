@@ -67,7 +67,12 @@ export default function MobileSearchInput() {
   const classes = useStyles();
   return (
     <div className={classes.mobileSearch}>
-      <input type="text" value="Start your search" className={classes.input} />
+      <input
+        type="text"
+        value="Start your search"
+        className={classes.input}
+        onChange={(event) => event}
+      />
       <div className={classes.searchIcon}>
         <BiSearch />
       </div>

@@ -18,7 +18,7 @@ import NoScrolledNav from "./noScrolledNav";
 // css
 
 const useStyles = createUseStyles((theme) => ({
-  headersContainer: {
+  navigationContainer: {
     padding: {
       left: 40,
       right: 40,
@@ -35,10 +35,10 @@ const useStyles = createUseStyles((theme) => ({
 
 // TODO: push to remove origin dev
 
-export default function Headers() {
+export default function Navigation() {
   const classes = useStyles();
   return (
-    <header className={classes.headersContainer}>
+    <header className={classes.navigationContainer}>
       <NoScrolledNav />
     </header>
   );
