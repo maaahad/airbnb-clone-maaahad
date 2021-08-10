@@ -19,7 +19,7 @@ const useStyles = createUseStyles((theme) => ({
   searchOption: {
     position: "relative",
     height: 40,
-    "& > a": {
+    "& > button": {
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
@@ -30,136 +30,129 @@ const useStyles = createUseStyles((theme) => ({
         bottom: 10,
         left: 12,
       },
+      backgroundColor: "transparent",
+      border: "none",
       ...theme.typography.linkText,
       color: "inherit",
     },
-    "& > a:hover": {
-      color: theme.typography.color.tertiary,
+    "& > button:hover": {
+      // color: theme.typography.color.tertiary,
       cursor: "pointer",
     },
   },
-  bottomBorder: (styles) => ({
+  animatedBorderContainer: {
     // This is activated on hover and onclick
     position: "absolute",
-    bottom: 2,
+    bottom: 0,
     left: 0,
     width: "100%",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    "& > div": {
-      backgroundColor: theme.typography.color.tertiary,
-      transition: theme.transition.all,
-      ...styles,
-    },
+  },
+  animatedBorder: (status) => ({
+    backgroundColor: theme.typography.color.tertiary,
+    backgroundColor: theme.palette.common.white,
+    transition: theme.transition.all,
+    height: 2,
+    width: status === "active" ? 20 : status === "hover" ? 5 : 0,
   }),
 }));
 
+const options = [
+  { label: "Places to stay", tag: "places" },
+  { label: "Experiences", tag: "experiences" },
+  { label: "Online Experiences", tag: "online" },
+];
+// todo : refactor to use options
+
 function Option({
+  tag,
   label,
-  optionId,
-  activateOption = (f) => f,
   status,
-  activeStyles,
+  activateOption = (f) => f,
+  onMouseEnter = (f) => f,
+  onMouseLeave = (f) => f,
 }) {
-  const theme = useTheme();
-  const [styles, setStyles] = useState(activeStyles);
-
-  console.log(optionId, status, styles, activeStyles);
-
-  const classes = useStyles(styles);
-
-  const onMouseEnter = (event) => {
-    status === "default" &&
-      setStyles({
-        width: 5,
-        height: 2,
-      });
-  };
-
-  const onMouseLeave = (event) => {
-    status === "default" &&
-      setStyles({
-        width: 0,
-        height: 0,
-      });
-  };
-  const onClick = (event) => {
-    activateOption(optionId);
-  };
-
+  const classes = useStyles(status);
   return (
     <div
       className={classes.searchOption}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-      onClick={onClick}
+      onClick={() => activateOption(tag)}
+      onMouseEnter={() => onMouseEnter(tag)}
+      onMouseLeave={() => onMouseLeave(tag)}
     >
-      <a>{label}</a>
-      <div className={classes.bottomBorder}>
-        <div></div>
+      <button>{label}</button>
+      <div className={classes.animatedBorderContainer}>
+        <div className={classes.animatedBorder}></div>
       </div>
     </div>
   );
 }
 
 export default function SearchOptions() {
-  // this component should control the styling of each option
-  // by using a state
-  const optionStyles = {
-    default: {
-      width: 0,
-      height: 0,
-    },
-    activated: {
-      width: 20,
-      height: 2,
-    },
-  };
+  const [optionsStatus, setOptionsStatus] = useState({
+    places: "active",
+    experiences: "default",
+    online: "default",
+  });
+
   const theme = useTheme();
-  const [activeOption, setActiveOption] = useState("places");
   const classes = useStyles();
 
-  console.log("activeOption, ", activeOption);
-
-  const activateOption = (optionId) => {
-    setActiveOption(optionId);
+  const activateOption = (tag) => {
+    const newStatus = {
+      places: "default",
+      experiences: "default",
+      online: "default",
+    };
+    newStatus[tag] = "active";
+    setOptionsStatus(newStatus);
   };
+
+  // another method to a
+  const onMouseEnter = (tag) => {
+    console.log("mouse enter: ", tag);
+    if (optionsStatus[tag] === "active") return;
+    const newStatus = { ...optionsStatus };
+    newStatus[tag] = "hover";
+    setOptionsStatus(newStatus);
+  };
+  const onMouseLeave = (tag) => {
+    console.log("mouse leave: ", tag);
+    if (optionsStatus[tag] === "active") return;
+    const newStatus = { ...optionsStatus };
+    newStatus[tag] = "default";
+    setOptionsStatus(newStatus);
+  };
+
+  console.log(optionsStatus);
 
   return (
     <div className={classes.searchOptions}>
       <Option
-        label="Places to stay"
-        optionId="places"
+        tag="places"
+        label="Places"
+        status={optionsStatus["places"]}
         activateOption={activateOption}
-        status={activeOption === "places" ? "activated" : "default"}
-        activeStyles={
-          activeOption === "places"
-            ? optionStyles.activated
-            : optionStyles.default
-        }
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
       />
       <Option
+        tag="experiences"
         label="Experiences"
-        optionId="experiences"
+        status={optionsStatus["experiences"]}
         activateOption={activateOption}
-        status={activeOption === "experiences" ? "activated" : "default"}
-        activeStyles={
-          activeOption === "experiences"
-            ? optionStyles.activated
-            : optionStyles.default
-        }
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
       />
       <Option
+        tag="online"
         label="Online Experiences"
-        optionId="online"
+        status={optionsStatus["online"]}
         activateOption={activateOption}
-        status={activeOption === "online" ? "activated" : "default"}
-        activeStyles={
-          activeOption === "online"
-            ? optionStyles.activated
-            : optionStyles.default
-        }
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
       />
     </div>
   );
