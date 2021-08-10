@@ -7,7 +7,7 @@ import { createUseStyles } from "react-jss";
 
 // css
 const useStyles = createUseStyles((theme) => ({
-  logo: {
+  logoContainer: {
     height: "100%",
     width: 32,
     display: "flex",
@@ -19,8 +19,8 @@ const useStyles = createUseStyles((theme) => ({
 export default function Logo() {
   const classes = useStyles();
   return (
-    <div className={classes.logo}>
-      <Image src="/logo.png" width={30} height={32} />
+    <div className={classes.logoContainer}>
+      <Image src="/logo.png" width={30} height={32} alt="Airbnb Logo" />
     </div>
   );
 }
