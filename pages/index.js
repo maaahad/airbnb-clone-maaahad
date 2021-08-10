@@ -24,3 +24,6 @@ export default function Home() {
     </div>
   );
 }
+
+// getStaticProps to get the all featuredProjects, that will be passed to FeaturedProjects
+export async function getStaticProps(context) {}
