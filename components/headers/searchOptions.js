@@ -46,7 +46,8 @@ const useStyles = createUseStyles((theme) => ({
       color: theme.palette.common.white,
     },
     "& > button:hover": {
-      color: theme.typography.color.tertiary,
+      // color is set on hover in React component to be consistent with animated border
+      // color: theme.background.color.secondary,
       cursor: "pointer",
     },
   },
@@ -108,7 +109,7 @@ export default function SearchOptions({ setSearchInput }) {
     },
     hover: {
       width: 5,
-      backgroundColor: theme.typography.color.tertiary,
+      backgroundColor: theme.background.color.secondary,
     },
     active: {
       width: 20,

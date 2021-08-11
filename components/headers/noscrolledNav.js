@@ -8,7 +8,6 @@ import { createUseStyles } from "react-jss";
 // components
 import NoScrolledTopNav from "./noScrolledTopNav";
 import FullFeaturedSearch from "./fullFeaturedSearch";
-import SearchOptions from "./searchOptions";
 
 // css
 
@@ -22,11 +21,17 @@ const useStyles = createUseStyles((theme) => ({
   fullFeaturedSearch: {
     display: "none",
   },
-  "@media screen and (min-width: 743px)": {
+  // implement a method to create breakpoint : createMinWidthBreakPoints in theme ...
+  [`@media screen and (min-width: ${theme.breakpoints.navBp1})`]: {
     fullFeaturedSearch: {
       display: "block",
     },
   },
+  // "@media screen and (min-width: 743px)": {
+  //   fullFeaturedSearch: {
+  //     display: "block",
+  //   },
+  // },
 }));
 
 export default function NoScrolledNav() {
