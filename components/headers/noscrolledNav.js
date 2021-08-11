@@ -8,6 +8,7 @@ import { createUseStyles } from "react-jss";
 // components
 import NoScrolledTopNav from "./noScrolledTopNav";
 import FullFeaturedSearch from "./fullFeaturedSearch";
+import SearchOptions from "./searchOptions";
 
 // css
 

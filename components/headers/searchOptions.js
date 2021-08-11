@@ -16,6 +16,12 @@ const useStyles = createUseStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
   },
+  offline: {
+    display: "flex",
+    flexFlow: "row nowrap",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   searchOption: {
     position: "relative",
     height: 40,
@@ -24,6 +30,7 @@ const useStyles = createUseStyles((theme) => ({
       alignItems: "center",
       justifyContent: "center",
       height: "100%",
+      transition: theme.transition.all,
       padding: {
         top: 10,
         right: 12,
@@ -35,13 +42,15 @@ const useStyles = createUseStyles((theme) => ({
       ...theme.typography.linkText,
       color: "inherit",
     },
+    "& > button:focus": {
+      color: theme.palette.common.white,
+    },
     "& > button:hover": {
-      // color: theme.typography.color.tertiary,
+      color: theme.typography.color.tertiary,
       cursor: "pointer",
     },
   },
   animatedBorderContainer: {
-    // This is activated on hover and onclick
     position: "absolute",
     bottom: 0,
     left: 0,
@@ -50,13 +59,11 @@ const useStyles = createUseStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
   },
-  animatedBorder: (status) => ({
-    backgroundColor: theme.typography.color.tertiary,
+  animatedBorder: {
     backgroundColor: theme.palette.common.white,
     transition: theme.transition.all,
     height: 2,
-    width: status === "active" ? 20 : status === "hover" ? 5 : 0,
-  }),
+  },
 }));
 
 const options = [
@@ -64,95 +71,111 @@ const options = [
   { label: "Experiences", tag: "experiences" },
   { label: "Online Experiences", tag: "online" },
 ];
-// todo : refactor to use options
 
 function Option({
   tag,
   label,
-  status,
+  borderStyle,
+  setHoverStyle = (f) => f,
+  unsetHoverStyle = (f) => f,
   activateOption = (f) => f,
-  onMouseEnter = (f) => f,
-  onMouseLeave = (f) => f,
 }) {
-  const classes = useStyles(status);
+  const classes = useStyles();
   return (
     <div
       className={classes.searchOption}
-      onClick={() => activateOption(tag)}
-      onMouseEnter={() => onMouseEnter(tag)}
-      onMouseLeave={() => onMouseLeave(tag)}
+      onMouseEnter={(event) => setHoverStyle(tag)}
+      onMouseLeave={(event) => unsetHoverStyle(tag)}
+      onClick={(event) => activateOption(tag)}
     >
-      <button>{label}</button>
+      <button style={{ color: borderStyle.backgroundColor }}>{label}</button>
       <div className={classes.animatedBorderContainer}>
-        <div className={classes.animatedBorder}></div>
+        <div
+          className={classes.animatedBorder}
+          style={{ ...borderStyle }}
+        ></div>
       </div>
     </div>
   );
 }
 
-export default function SearchOptions() {
-  const [optionsStatus, setOptionsStatus] = useState({
-    places: "active",
-    experiences: "default",
-    online: "default",
+export default function SearchOptions({ setSearchInput }) {
+  const theme = useTheme();
+  const optionStyles = {
+    default: {
+      width: 0,
+      backgroundColor: theme.palette.common.white,
+    },
+    hover: {
+      width: 5,
+      backgroundColor: theme.typography.color.tertiary,
+    },
+    active: {
+      width: 20,
+      backgroundColor: theme.palette.common.white,
+    },
+  };
+  const classes = useStyles();
+  const [styles, setStyles] = useState({
+    places: optionStyles.active,
+    experiences: optionStyles.default,
+    online: optionStyles.default,
   });
 
-  const theme = useTheme();
-  const classes = useStyles();
+  // TODO : hover does not seem to be working properly
+  // quick mouse remove to other option, not affecting unsetHoverStyle
+  const setHoverStyle = (tag) => {
+    if (styles[tag].width === 20) return;
+    const newStyles = { ...styles, [tag]: optionStyles.hover };
+    setStyles(newStyles);
+  };
+  const unsetHoverStyle = (tag) => {
+    if (styles[tag].width === 20) return;
+    const newStyles = { ...styles, [tag]: optionStyles.default };
+    setStyles(newStyles);
+  };
 
   const activateOption = (tag) => {
-    const newStatus = {
-      places: "default",
-      experiences: "default",
-      online: "default",
+    if (styles[tag].width === 20) return;
+    const newStyles = {
+      ...{
+        places: optionStyles.default,
+        experiences: optionStyles.default,
+        online: optionStyles.default,
+      },
+      [tag]: optionStyles.active,
     };
-    newStatus[tag] = "active";
-    setOptionsStatus(newStatus);
+    setStyles(newStyles);
+    // specify searchInput
   };
-
-  // another method to a
-  const onMouseEnter = (tag) => {
-    console.log("mouse enter: ", tag);
-    if (optionsStatus[tag] === "active") return;
-    const newStatus = { ...optionsStatus };
-    newStatus[tag] = "hover";
-    setOptionsStatus(newStatus);
-  };
-  const onMouseLeave = (tag) => {
-    console.log("mouse leave: ", tag);
-    if (optionsStatus[tag] === "active") return;
-    const newStatus = { ...optionsStatus };
-    newStatus[tag] = "default";
-    setOptionsStatus(newStatus);
-  };
-
-  console.log(optionsStatus);
 
   return (
     <div className={classes.searchOptions}>
+      <div className={classes.offline}>
+        <Option
+          label="Places to stay"
+          tag="places"
+          borderStyle={styles.places}
+          setHoverStyle={setHoverStyle}
+          unsetHoverStyle={unsetHoverStyle}
+          activateOption={activateOption}
+        />
+        <Option
+          label="Experiences"
+          tag="experiences"
+          borderStyle={styles.experiences}
+          setHoverStyle={setHoverStyle}
+          unsetHoverStyle={unsetHoverStyle}
+          activateOption={activateOption}
+        />
+      </div>
       <Option
-        tag="places"
-        label="Places"
-        status={optionsStatus["places"]}
-        activateOption={activateOption}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
-      />
-      <Option
-        tag="experiences"
-        label="Experiences"
-        status={optionsStatus["experiences"]}
-        activateOption={activateOption}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
-      />
-      <Option
-        tag="online"
         label="Online Experiences"
-        status={optionsStatus["online"]}
+        tag="online"
+        borderStyle={styles.online}
+        setHoverStyle={setHoverStyle}
+        unsetHoverStyle={unsetHoverStyle}
         activateOption={activateOption}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
       />
     </div>
   );

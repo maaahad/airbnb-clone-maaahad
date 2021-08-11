@@ -58,7 +58,7 @@ export default {
     hover: "rgba(0,0,0,0.18) 0px 2px 4px",
   },
   transition: {
-    all: "all .3s ease-out",
+    all: "all .5s ease-out",
   },
   zIndex: {
     nav: 1000,
