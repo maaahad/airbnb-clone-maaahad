@@ -39,6 +39,17 @@ export default {
       lineHeight: "20px",
       fontWeight: "300",
     },
+    searchCardLavel: {
+      fontSize: "12px",
+      lineHeight: "16px",
+      fontWeight: "700",
+      letterSpacing: "0.04em",
+    },
+    searchCardPlaceholder: {
+      fontSize: "14px",
+      lineHeight: "18px",
+      fontWeight: "200",
+    },
   },
   background: {
     color: {

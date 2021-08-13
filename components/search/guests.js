@@ -16,6 +16,7 @@ import SearchCard from "./searchCard";
 const useStyles = createUseStyles((theme) => ({
   guests: {
     flex: 1,
+    minWidth: 180,
     display: "flex",
     flexFlow: "row nowrap",
     alignItems: "center",

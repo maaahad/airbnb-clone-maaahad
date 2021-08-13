@@ -22,15 +22,22 @@ const useStyles = createUseStyles((theme) => ({
     },
     border: theme.border.transparent,
     borderRadius: 32,
+    "&:focus": {
+      backgroundColor: theme.palette.common.white,
+    },
     "&:hover": {
       backgroundColor: theme.background.color.secondary,
+      cursor: "pointer",
     },
   },
   searchLabel: {
     color: theme.typography.color.primary,
+    paddingBottom: 2,
+    ...theme.typography.searchCardLavel,
   },
   searchPlaceholder: {
-    color: theme.typography.color.tertiary,
+    color: theme.typography.color.secondary,
+    ...theme.typography.searchCardPlaceholder,
   },
 }));
 

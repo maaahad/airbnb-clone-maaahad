@@ -6,8 +6,8 @@
 import { createUseStyles } from "react-jss";
 
 // components
-import SearchOptions from "./searchOptions";
-import FullFeaturedSearchInput from "../search/fullFeaturedSearchInput";
+import SearchOptions from "../nav/searchOptions";
+import FullFeaturedSearchInput from "./fullFeaturedSearchInput";
 // css
 const useStyles = createUseStyles((theme) => ({
   fullFeaturedSearch: {

@@ -12,6 +12,7 @@ import SearchCard from "./searchCard";
 const useStyles = createUseStyles((theme) => ({
   check: {
     flex: 1,
+    minWidth: 320,
     display: "flex",
     flexFlow: "row",
     alignItems: "center",
