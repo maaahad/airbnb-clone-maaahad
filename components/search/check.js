@@ -1,9 +1,9 @@
 // react
-
+import React, { useRef } from "react";
 // next
 
 // react-jss
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 
 // component
 import SearchCard from "./searchCard";
@@ -30,16 +30,41 @@ const useStyles = createUseStyles((theme) => ({
   },
 }));
 
-export default function Check() {
+export default function Check({
+  dividerVisibilityOnMouseEnter = (f) => f,
+  dividerVisibilityOnMouseLeave = (f) => f,
+}) {
+  const theme = useTheme();
   const classes = useStyles();
+  const checkDivierRef = useRef();
+  const handleMouseEnter = (label) => {
+    checkDivierRef.current.style.backgroundColor = "transparent";
+    dividerVisibilityOnMouseEnter(label);
+  };
+  const handleMouseLeave = (label) => {
+    checkDivierRef.current.style.backgroundColor =
+      theme.background.color.secondary;
+    dividerVisibilityOnMouseLeave(label);
+  };
+
   return (
     <div className={classes.check}>
       <div className={classes.card}>
-        <SearchCard label="Check in" placeholder="Add dates" />
+        <SearchCard
+          label="Check in"
+          placeholder="Add dates"
+          dividerVisibilityOnMouseEnter={handleMouseEnter}
+          dividerVisibilityOnMouseLeave={handleMouseLeave}
+        />
       </div>
-      <div className={classes.divider}></div>
+      <div ref={checkDivierRef} className={classes.divider}></div>
       <div className={classes.card}>
-        <SearchCard label="Check out" placeholder="Add dates" />
+        <SearchCard
+          label="Check out"
+          placeholder="Add dates"
+          dividerVisibilityOnMouseEnter={handleMouseEnter}
+          dividerVisibilityOnMouseLeave={handleMouseLeave}
+        />
       </div>
     </div>
   );

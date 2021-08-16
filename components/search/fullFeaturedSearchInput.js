@@ -1,9 +1,9 @@
 // react
-
+import React, { useRef } from "react";
 // next
 
 // react-jss
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 
 // component
 import Location from "./location";
@@ -34,37 +34,51 @@ const useStyles = createUseStyles((theme) => ({
     width: 1,
     backgroundColor: theme.background.color.secondary,
   },
-  //   checkinCheckout: {
-  //     display: "flex",
-  //     flexFlow: "row nowrap",
-  //     alignItems: "center",
-  //     justifyContent: "space -between",
-  //   },
-  //   guestsNSeachIcon: {
-  //     display: "flex",
-  //     flexFlow: "row nowrap",
-  //     alignItems: "center",
-  //     justifyContent: "space -between",
-  //   },
 }));
+
+// a custom hook to control the visibility of divider :: NEXT
 
 export default function FullFeaturedSearchInput() {
   const classes = useStyles();
+  const theme = useTheme();
+  const locationCheckDividerRef = useRef();
+  const checkGuestsDivicerRef = useRef();
+
+  const setDividerVisility = (label, backgroundColor) => {
+    let ref = null;
+    if (["Location", "Check in"].includes(label)) ref = locationCheckDividerRef;
+    if (["Guests", "Check out"].includes(label)) ref = checkGuestsDivicerRef;
+    if (!ref) return;
+    ref.current.style.backgroundColor = backgroundColor;
+  };
+  // use a custom hook to control
+  // control both with single function by receiving background color from SearchCard
+  const dividerVisibilityOnMouseEnter = (label) => {
+    setDividerVisility(label, "transparent");
+  };
+
+  const dividerVisibilityOnMouseLeave = (label) => {
+    setDividerVisility(label, theme.background.color.secondary);
+  };
+
   return (
     <div className={classes.searchInput}>
-      <Location />
-      <div className={classes.divider}></div>
-      <Check />
-      <div className={classes.divider}></div>
-      <Guests />
-      {/* <div className={classes.checkinCheckout}>
-        <SearchCard label="Checkin" placeholder="Add dates" />
-        <SearchCard label="Checkout" placeholder="Add dates" />
-      </div>
-      <div className={classes.guestsNSeachIcon}>
-        <SearchCard label="Checkout" placeholder="Add dates" />
-        <div>Search Icons</div>
-      </div> */}
+      <Location
+        dividerVisibilityOnMouseEnter={dividerVisibilityOnMouseEnter}
+        dividerVisibilityOnMouseLeave={dividerVisibilityOnMouseLeave}
+      />
+      {/* hide this dive on hover over location  + Check in */}
+      <div ref={locationCheckDividerRef} className={classes.divider}></div>
+      <Check
+        dividerVisibilityOnMouseEnter={dividerVisibilityOnMouseEnter}
+        dividerVisibilityOnMouseLeave={dividerVisibilityOnMouseLeave}
+      />
+      {/* hide this dive on hover over Guests  + Check out */}
+      <div ref={checkGuestsDivicerRef} className={classes.divider}></div>
+      <Guests
+        dividerVisibilityOnMouseEnter={dividerVisibilityOnMouseEnter}
+        dividerVisibilityOnMouseLeave={dividerVisibilityOnMouseLeave}
+      />
     </div>
   );
 }

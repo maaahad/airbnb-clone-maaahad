@@ -41,10 +41,27 @@ const useStyles = createUseStyles((theme) => ({
   },
 }));
 
-export default function SearchCard({ label, placeholder }) {
+export default function SearchCard({
+  label,
+  placeholder,
+  dividerVisibilityOnMouseEnter = (f) => f,
+  dividerVisibilityOnMouseLeave = (f) => f,
+}) {
   const classes = useStyles();
+  const handleOnMouseEnter = (event) => {
+    dividerVisibilityOnMouseEnter(label);
+  };
+
+  const handleOnMouseLeave = (event) => {
+    dividerVisibilityOnMouseLeave(label);
+  };
+
   return (
-    <div className={classes.searchCard}>
+    <div
+      className={classes.searchCard}
+      onMouseEnter={handleOnMouseEnter}
+      onMouseLeave={handleOnMouseLeave}
+    >
       <div className={classes.searchLabel}>{label}</div>
       <div className={classes.searchPlaceholder}>{placeholder}</div>
     </div>

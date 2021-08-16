@@ -47,35 +47,23 @@ const useDynamicPlaceholder = (ref, text) => {
   return placeholder;
 };
 
-export default function Location() {
+export default function Location({
+  dividerVisibilityOnMouseEnter = (f) => f,
+  dividerVisibilityOnMouseLeave = (f) => f,
+}) {
   const text = "Where are you going?";
   const classes = useStyles();
   const locationRef = useRef();
   const placeholder = useDynamicPlaceholder(locationRef, text);
-  // const [placeholder, setPlaceholder] = useState("");
-  // const resizePlaceholder = () => {
-  //   const totalWidth = window
-  //     .getComputedStyle(locationRef.current)
-  //     .width.slice(0, -2);
-
-  //   const charsToAccomodate = Math.floor((parseInt(totalWidth) - 24 * 2) / 8);
-
-  //   setPlaceholder(
-  //     charsToAccomodate >= text.length
-  //       ? text
-  //       : text.slice(0, charsToAccomodate - 3) + "..."
-  //   );
-  // };
-
-  // useLayoutEffect(() => {
-  //   window.addEventListener("resize", resizePlaceholder);
-  //   resizePlaceholder();
-  //   return () => window.removeEventListener("resize", resizePlaceholder);
-  // }, []);
 
   return (
     <div ref={locationRef} className={classes.location}>
-      <SearchCard label="Location" placeholder={placeholder} />
+      <SearchCard
+        label="Location"
+        placeholder={placeholder}
+        dividerVisibilityOnMouseEnter={dividerVisibilityOnMouseEnter}
+        dividerVisibilityOnMouseLeave={dividerVisibilityOnMouseLeave}
+      />
     </div>
   );
 }
