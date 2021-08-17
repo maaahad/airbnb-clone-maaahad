@@ -30,6 +30,17 @@ const useStyles = createUseStyles((theme) => ({
   },
 }));
 
+// create a custom library for custom hook
+
+const useDividerWithDynamicBg = () => {
+  const ref = useRef();
+  const setBgColor = (bgColor) => {
+    if (ref) ref.current.style.backgroundColor = bgColor;
+  };
+
+  return [ref, setBgColor];
+};
+
 export default function Check({
   dividerVisibilityOnMouseEnter = (f) => f,
   dividerVisibilityOnMouseLeave = (f) => f,
@@ -37,17 +48,11 @@ export default function Check({
 }) {
   const theme = useTheme();
   const classes = useStyles();
-  const checkDivierRef = useRef();
+  const [checkDivRef, setCheckDivBg] = useDividerWithDynamicBg();
 
-  // need another useDividerWithDynamicBg hooks
-  const handleMouseEnter = (label) => {
-    checkDivierRef.current.style.backgroundColor = "transparent";
-    dividerVisibilityOnMouseEnter(label);
-  };
-  const handleMouseLeave = (label) => {
-    checkDivierRef.current.style.backgroundColor =
-      theme.background.color.secondary;
-    dividerVisibilityOnMouseLeave(label);
+  const handleDivBg = (label, bg) => {
+    setCheckDivBg(bg);
+    setDividerBg(label, bg);
   };
 
   return (
@@ -56,18 +61,15 @@ export default function Check({
         <SearchCard
           label="Check in"
           placeholder="Add dates"
-          dividerVisibilityOnMouseEnter={handleMouseEnter}
-          dividerVisibilityOnMouseLeave={handleMouseLeave}
+          setDividerBg={handleDivBg}
         />
       </div>
-      <div ref={checkDivierRef} className={classes.divider}></div>
+      <div ref={checkDivRef} className={classes.divider}></div>
       <div className={classes.card}>
         <SearchCard
           label="Check out"
           placeholder="Add dates"
-          dividerVisibilityOnMouseEnter={handleMouseEnter}
-          dividerVisibilityOnMouseLeave={handleMouseLeave}
-          setDividerBg={setDividerBg}
+          setDividerBg={handleDivBg}
         />
       </div>
     </div>

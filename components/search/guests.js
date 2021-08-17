@@ -49,12 +49,16 @@ const useStyles = createUseStyles((theme) => ({
   },
 }));
 
-export default function Guests() {
+export default function Guests({ setDividerBg = (f) => f }) {
   const classes = useStyles();
   return (
     <div className={classes.guests}>
       <div className={classes.card}>
-        <SearchCard label="Guests" placeholder="Add guests" />
+        <SearchCard
+          label="Guests"
+          placeholder="Add guests"
+          setDividerBg={setDividerBg}
+        />
       </div>
       <div className={classes.searchIcon}>
         <BiSearch />

@@ -36,7 +36,7 @@ const useStyles = createUseStyles((theme) => ({
   },
 }));
 
-// a custom hook to control the visibility of divider :: NEXT
+// create a custom library for custom hook
 const useDividerWithDynamicBg = () => {
   const ref = useRef();
   const setBgColor = (bgColor) => {
