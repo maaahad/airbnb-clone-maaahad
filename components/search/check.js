@@ -33,10 +33,13 @@ const useStyles = createUseStyles((theme) => ({
 export default function Check({
   dividerVisibilityOnMouseEnter = (f) => f,
   dividerVisibilityOnMouseLeave = (f) => f,
+  setDividerBg = (f) => f,
 }) {
   const theme = useTheme();
   const classes = useStyles();
   const checkDivierRef = useRef();
+
+  // need another useDividerWithDynamicBg hooks
   const handleMouseEnter = (label) => {
     checkDivierRef.current.style.backgroundColor = "transparent";
     dividerVisibilityOnMouseEnter(label);
@@ -64,6 +67,7 @@ export default function Check({
           placeholder="Add dates"
           dividerVisibilityOnMouseEnter={handleMouseEnter}
           dividerVisibilityOnMouseLeave={handleMouseLeave}
+          setDividerBg={setDividerBg}
         />
       </div>
     </div>

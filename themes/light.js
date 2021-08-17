@@ -14,6 +14,7 @@ export default {
     common: {
       white: "#ffffff",
       black: "#000000",
+      transparent: "transparent",
     },
     signature: "#ff385c",
   },
@@ -55,7 +56,7 @@ export default {
     color: {
       primary: "#f7f7f7",
       secondary: "#ebebeb",
-      transparent: "#263e58",
+      transparent: "transparent",
     },
   },
   border: {

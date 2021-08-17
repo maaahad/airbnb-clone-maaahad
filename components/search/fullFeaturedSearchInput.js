@@ -37,48 +37,40 @@ const useStyles = createUseStyles((theme) => ({
 }));
 
 // a custom hook to control the visibility of divider :: NEXT
+const useDividerWithDynamicBg = () => {
+  const ref = useRef();
+  const setBgColor = (bgColor) => {
+    if (ref) ref.current.style.backgroundColor = bgColor;
+  };
+
+  return [ref, setBgColor];
+};
 
 export default function FullFeaturedSearchInput() {
   const classes = useStyles();
   const theme = useTheme();
-  const locationCheckDividerRef = useRef();
-  const checkGuestsDivicerRef = useRef();
 
-  const setDividerVisility = (label, backgroundColor) => {
-    let ref = null;
-    if (["Location", "Check in"].includes(label)) ref = locationCheckDividerRef;
-    if (["Guests", "Check out"].includes(label)) ref = checkGuestsDivicerRef;
-    if (!ref) return;
-    ref.current.style.backgroundColor = backgroundColor;
-  };
-  // use a custom hook to control
-  // control both with single function by receiving background color from SearchCard
-  const dividerVisibilityOnMouseEnter = (label) => {
-    setDividerVisility(label, "transparent");
-  };
+  const [locCheckDivRef, setLocCheckDivBg] = useDividerWithDynamicBg();
+  const [checkGuestsDivRef, setCheckGuestsDivBg] = useDividerWithDynamicBg();
 
-  const dividerVisibilityOnMouseLeave = (label) => {
-    setDividerVisility(label, theme.background.color.secondary);
+  // a single function to control visibility
+  const setDividerBg = (label, bg) => {
+    if (["Location", "Check in"].includes(label)) {
+      setLocCheckDivBg(bg);
+    } else if (["Guests", "Check out"].includes(label)) {
+      setCheckGuestsDivBg(bg);
+    }
   };
 
   return (
     <div className={classes.searchInput}>
-      <Location
-        dividerVisibilityOnMouseEnter={dividerVisibilityOnMouseEnter}
-        dividerVisibilityOnMouseLeave={dividerVisibilityOnMouseLeave}
-      />
-      {/* hide this dive on hover over location  + Check in */}
-      <div ref={locationCheckDividerRef} className={classes.divider}></div>
-      <Check
-        dividerVisibilityOnMouseEnter={dividerVisibilityOnMouseEnter}
-        dividerVisibilityOnMouseLeave={dividerVisibilityOnMouseLeave}
-      />
-      {/* hide this dive on hover over Guests  + Check out */}
-      <div ref={checkGuestsDivicerRef} className={classes.divider}></div>
-      <Guests
-        dividerVisibilityOnMouseEnter={dividerVisibilityOnMouseEnter}
-        dividerVisibilityOnMouseLeave={dividerVisibilityOnMouseLeave}
-      />
+      <Location setDividerBg={setDividerBg} />
+      {/* hide this div on hover over location  + Check in */}
+      <div ref={locCheckDivRef} className={classes.divider}></div>
+      <Check setDividerBg={setDividerBg} />
+      {/* hide this div on hover over Guests  + Check out */}
+      <div ref={checkGuestsDivRef} className={classes.divider}></div>
+      <Guests setDividerBg={setDividerBg} />
     </div>
   );
 }

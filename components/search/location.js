@@ -47,10 +47,7 @@ const useDynamicPlaceholder = (ref, text) => {
   return placeholder;
 };
 
-export default function Location({
-  dividerVisibilityOnMouseEnter = (f) => f,
-  dividerVisibilityOnMouseLeave = (f) => f,
-}) {
+export default function Location({ setDividerBg = (f) => f }) {
   const text = "Where are you going?";
   const classes = useStyles();
   const locationRef = useRef();
@@ -61,8 +58,7 @@ export default function Location({
       <SearchCard
         label="Location"
         placeholder={placeholder}
-        dividerVisibilityOnMouseEnter={dividerVisibilityOnMouseEnter}
-        dividerVisibilityOnMouseLeave={dividerVisibilityOnMouseLeave}
+        setDividerBg={setDividerBg}
       />
     </div>
   );

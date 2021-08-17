@@ -3,7 +3,7 @@
 // next
 
 // react-jss
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 
 // css
 const useStyles = createUseStyles((theme) => ({
@@ -46,21 +46,29 @@ export default function SearchCard({
   placeholder,
   dividerVisibilityOnMouseEnter = (f) => f,
   dividerVisibilityOnMouseLeave = (f) => f,
+  setDividerBg = (f) => f,
 }) {
+  const theme = useTheme();
   const classes = useStyles();
-  const handleOnMouseEnter = (event) => {
-    dividerVisibilityOnMouseEnter(label);
+  const handleMouseEnter = (event) => {
+    // dividerVisibilityOnMouseEnter(label);
+    // pass the label and background color
+    // theme.background.color.transparent
+    setDividerBg(label, theme.background.color.transparent);
   };
 
-  const handleOnMouseLeave = (event) => {
-    dividerVisibilityOnMouseLeave(label);
+  const handleMouseLeave = (event) => {
+    // dividerVisibilityOnMouseLeave(label);
+    // pass the label and background color
+    // theme.background.color.secondary
+    setDividerBg(label, theme.background.color.secondary);
   };
 
   return (
     <div
       className={classes.searchCard}
-      onMouseEnter={handleOnMouseEnter}
-      onMouseLeave={handleOnMouseLeave}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       <div className={classes.searchLabel}>{label}</div>
       <div className={classes.searchPlaceholder}>{placeholder}</div>
