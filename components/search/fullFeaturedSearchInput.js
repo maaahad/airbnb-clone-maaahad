@@ -40,7 +40,13 @@ const useStyles = createUseStyles((theme) => ({
 const useDividerWithDynamicBg = () => {
   const ref = useRef();
   const setBgColor = (bgColor) => {
-    if (ref) ref.current.style.backgroundColor = bgColor;
+    if (ref) {
+      // console.log(ref.current.style);
+      ref.current.style.backgroundColor = bgColor;
+      // we need the following to make the hook general ... NOT WORKING
+      //  we need to create Style class ... TODO : check book ===
+      // ref.current.style = { ...ref.current.style, backgroundColor: bgColor };
+    }
   };
 
   return [ref, setBgColor];
@@ -52,6 +58,12 @@ export default function FullFeaturedSearchInput() {
 
   const [locCheckDivRef, setLocCheckDivBg] = useDividerWithDynamicBg();
   const [checkGuestsDivRef, setCheckGuestsDivBg] = useDividerWithDynamicBg();
+
+  // each search card should have a state from [default, hover, focus]
+  // not sure how to handle it.
+  // may be the root parent should have state...
+  // because other SearchCard's state depends on each other
+  // we have four card... location, CheckIn, checkOut, Guests
 
   // a single function to control visibility
   const setDividerBg = (label, bg) => {
