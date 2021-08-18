@@ -6,8 +6,8 @@
 import { createUseStyles } from "react-jss";
 
 // components
-import SearchOptions from "./searchOptions";
-
+import SearchOptions from "../nav/searchOptions";
+import FullFeaturedSearchInput from "./fullFeaturedSearchInput";
 // css
 const useStyles = createUseStyles((theme) => ({
   fullFeaturedSearch: {
@@ -19,6 +19,9 @@ const useStyles = createUseStyles((theme) => ({
   searchOptions: {
     display: "block",
   },
+  searchInput: {
+    width: "100%",
+  },
   "@media screen and (min-width: 950px)": {
     searchOptions: {
       display: "none",
@@ -29,11 +32,13 @@ const useStyles = createUseStyles((theme) => ({
 export default function FullFeaturedSearch() {
   const classes = useStyles();
   return (
-    <div className={classes.FullFeaturedSearch}>
+    <form className={classes.FullFeaturedSearch}>
       <div className={classes.searchOptions}>
         <SearchOptions />
       </div>
-      <div>Full Featured Search Input </div>
-    </div>
+      <div className={classes.searchInput}>
+        <FullFeaturedSearchInput />
+      </div>
+    </form>
   );
 }

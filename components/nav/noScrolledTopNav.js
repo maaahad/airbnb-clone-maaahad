@@ -38,7 +38,6 @@ export default function NoScrolledTopNav() {
   return (
     <div className={classes.noScrolledTopNav}>
       <Logo />
-      {/* input options when vw < 743 */}
       <div className={classes.mobileSearchInput}>
         <MobileSearchInput />
       </div>

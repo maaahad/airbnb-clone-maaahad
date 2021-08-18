@@ -7,6 +7,9 @@ import Link from "next/link";
 import { BiGlobe } from "react-icons/bi";
 import { FaBars, FaUserCircle } from "react-icons/fa";
 
+// component
+import SearchOptions from "./searchOptions";
+
 // react-jss
 import { createUseStyles } from "react-jss";
 // css
@@ -19,6 +22,9 @@ const useStyles = createUseStyles((theme) => ({
     "& > * + *": {
       marginLeft: 5,
     },
+  },
+  searchOptions_950: {
+    display: "none",
   },
   host: {
     display: "none",
@@ -105,12 +111,20 @@ const useStyles = createUseStyles((theme) => ({
       display: "block",
     },
   },
+  "@media screen and (min-width: 950px)": {
+    searchOptions_950: {
+      display: "block",
+    },
+  },
 }));
 
 export default function RightNav() {
   const classes = useStyles();
   return (
     <div className={classes.rightNavRoot}>
+      <div className={classes.searchOptions_950}>
+        <SearchOptions />
+      </div>
       <div className={classes.host}>
         <Link href="#" passHref>
           <a>Become a host</a>

@@ -6,7 +6,7 @@
 import { createUseStyles } from "react-jss";
 
 // components
-import Navigation from "./headers/navigation";
+import Navigation from "./nav/navigation";
 
 // css
 const useStyles = createUseStyles((theme) => ({
