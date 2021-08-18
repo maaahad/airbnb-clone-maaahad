@@ -1,5 +1,5 @@
 // react
-
+// import React, { useState } from "react";
 // next
 
 // react-jss
@@ -23,7 +23,8 @@ const useStyles = createUseStyles((theme) => ({
     border: theme.border.transparent,
     borderRadius: 32,
     "&:focus": {
-      backgroundColor: theme.palette.common.white,
+      // backgroundColor: theme.palette.common.white,
+      // backgroundColor: "red",
     },
     "&:hover": {
       backgroundColor: theme.background.color.secondary,
@@ -44,24 +45,23 @@ const useStyles = createUseStyles((theme) => ({
 export default function SearchCard({
   label,
   placeholder,
-  dividerVisibilityOnMouseEnter = (f) => f,
-  dividerVisibilityOnMouseLeave = (f) => f,
   setDividerBg = (f) => f,
 }) {
+  // each card will receive it's state and will update it root background and box-shadow
+  // use useDividerWithDynamicBg like hoos, or make it general to control background
+
   const theme = useTheme();
   const classes = useStyles();
   const handleMouseEnter = (event) => {
-    // dividerVisibilityOnMouseEnter(label);
-    // pass the label and background color
-    // theme.background.color.transparent
     setDividerBg(label, theme.background.color.transparent);
   };
 
   const handleMouseLeave = (event) => {
-    // dividerVisibilityOnMouseLeave(label);
-    // pass the label and background color
-    // theme.background.color.secondary
     setDividerBg(label, theme.background.color.secondary);
+  };
+
+  const handleOnClick = (event) => {
+    setDividerBg(label, "red");
   };
 
   return (
@@ -69,6 +69,7 @@ export default function SearchCard({
       className={classes.searchCard}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onClick={handleOnClick}
     >
       <div className={classes.searchLabel}>{label}</div>
       <div className={classes.searchPlaceholder}>{placeholder}</div>
