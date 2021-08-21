@@ -4,7 +4,7 @@
 
 import Document, { Html, Head, Main, NextScript } from "next/document";
 import { SheetsRegistry, JssProvider, createGenerateId } from "react-jss";
-export default class MyDocument extends Document {
+class MyDocument extends Document {
   static async getInitialProps(ctx) {
     const registry = new SheetsRegistry();
     const generateId = createGenerateId();
@@ -51,4 +51,7 @@ export default class MyDocument extends Document {
     );
   }
 }
-MyDocument.displayName = "MyDocument";
+
+MyDocument.displayName = "MyComponent";
+
+export default MyDocument;
