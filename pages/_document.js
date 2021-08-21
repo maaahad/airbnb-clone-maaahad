@@ -4,7 +4,7 @@
 
 import Document, { Html, Head, Main, NextScript } from "next/document";
 import { SheetsRegistry, JssProvider, createGenerateId } from "react-jss";
-export default class MyDocument extends Document {
+class MyDocument extends Document {
   static async getInitialProps(ctx) {
     const registry = new SheetsRegistry();
     const generateId = createGenerateId();
@@ -33,7 +33,15 @@ export default class MyDocument extends Document {
     return (
       <Html>
         <Head>
-          <link rel="icon" href="/favicon.ico" />
+          <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+          />
+          <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          />
+          <link rel="icon" href="/images/maaahad.jpg" />
         </Head>
         <body>
           <Main />
@@ -43,3 +51,4 @@ export default class MyDocument extends Document {
     );
   }
 }
+export default MyDocument;
