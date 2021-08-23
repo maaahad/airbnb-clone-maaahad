@@ -41,7 +41,7 @@ class MyDocument extends Document {
             rel="stylesheet"
             href="https://fonts.googleapis.com/icon?family=Material+Icons"
           />
-          {/* <link rel="icon" href="/images/maaahad.jpg" /> */}
+          <link rel="icon" href="/favicon.ico" type="image/x-icon" />
         </Head>
         <body>
           <Main />

@@ -1,5 +1,5 @@
 // react
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 // next
 
 // react-jss
@@ -52,6 +52,39 @@ const useDividerWithDynamicBg = () => {
   return [ref, setBgColor];
 };
 
+// this is a test on active styles
+const useActiveStyles = (elStates, defaultStyles = {}, activeStyles = {}) => {
+  const _defaultStyles = (function () {
+    let styles = {};
+    for (let prop in elStates) {
+      styles[prop] = defaultStyles;
+    }
+    return styles;
+  })();
+
+  const initialStyles = (function () {
+    let styles = {};
+    for (let prop in elStates) {
+      if (elStates[prop] === "active") {
+        styles[prop] = activeStyles;
+      } else {
+        styles[prop] = defaultStyles;
+      }
+    }
+    return styles;
+  })();
+  const [styles, setStyles] = useState(initialStyles);
+  const resetStyles = () => {
+    setStyles(initialStyles);
+  };
+
+  const updateStyles = (label) => {
+    setStyles({ ..._defaultStyles, [label]: activeStyles });
+  };
+
+  return { styles, resetStyles, updateStyles };
+};
+
 export default function FullFeaturedSearchInput() {
   const classes = useStyles();
   const theme = useTheme();
@@ -64,6 +97,20 @@ export default function FullFeaturedSearchInput() {
   // may be the root parent should have state...
   // because other SearchCard's state depends on each other
   // we have four card... location, CheckIn, checkOut, Guests
+  const { styles, resetStyles, updateStyles } = useActiveStyles(
+    {
+      Location: "default",
+      "Cheek in": "default",
+      "Check out": "default",
+      Guests: "default",
+    },
+    {
+      backgroundColor: "red",
+    },
+    {
+      backgroundColor: "green",
+    }
+  );
 
   // a single function to control visibility
   const setDividerBg = (label, bg) => {
@@ -76,7 +123,11 @@ export default function FullFeaturedSearchInput() {
 
   return (
     <div className={classes.searchInput}>
-      <Location setDividerBg={setDividerBg} />
+      <Location
+        setDividerBg={setDividerBg}
+        cardStyles={styles["Location"]}
+        updateStyles={updateStyles}
+      />
       {/* hide this div on hover over location  + Check in */}
       <div ref={locCheckDivRef} className={classes.divider}></div>
       <Check setDividerBg={setDividerBg} />

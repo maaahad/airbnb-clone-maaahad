@@ -46,6 +46,8 @@ export default function SearchCard({
   label,
   placeholder,
   setDividerBg = (f) => f,
+  cardStyles = {},
+  updateStyles = (f) => f,
 }) {
   // each card will receive it's state and will update it root background and box-shadow
   // use useDividerWithDynamicBg like hoos, or make it general to control background
@@ -62,6 +64,8 @@ export default function SearchCard({
 
   const handleOnClick = (event) => {
     setDividerBg(label, "red");
+    // color should goes from here
+    updateStyles(label);
   };
 
   return (
@@ -70,6 +74,7 @@ export default function SearchCard({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={handleOnClick}
+      style={{ ...cardStyles }}
     >
       <div className={classes.searchLabel}>{label}</div>
       <div className={classes.searchPlaceholder}>{placeholder}</div>
