@@ -41,7 +41,7 @@ class MyDocument extends Document {
             rel="stylesheet"
             href="https://fonts.googleapis.com/icon?family=Material+Icons"
           />
-          <link rel="icon" href="/images/maaahad.jpg" />
+          {/* <link rel="icon" href="/images/maaahad.jpg" /> */}
         </Head>
         <body>
           <Main />
@@ -51,7 +51,4 @@ class MyDocument extends Document {
     );
   }
 }
-
-MyDocument.displayName = "MyComponent";
-
 export default MyDocument;
