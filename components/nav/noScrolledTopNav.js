@@ -23,6 +23,12 @@ const useStyles = createUseStyles((theme) => ({
       marginLeft: 10,
     },
   },
+  logo: {
+    display: "none",
+  },
+  rightNav: {
+    display: "none",
+  },
   mobileSearchInput: {
     flex: 1,
   },
@@ -31,17 +37,31 @@ const useStyles = createUseStyles((theme) => ({
       display: "none",
     },
   },
+  [`@media screen and (min-width: ${theme.breakpoints.sm})`]: {
+    logo: {
+      display: "block",
+    },
+    rightNav: {
+      display: "block",
+    },
+  },
 }));
 
 export default function NoScrolledTopNav() {
   const classes = useStyles();
   return (
     <div className={classes.noScrolledTopNav}>
-      <Logo />
+      <div className={classes.logo}>
+        <Logo />
+      </div>
+
       <div className={classes.mobileSearchInput}>
         <MobileSearchInput />
       </div>
-      <RightNav />
+
+      <div className={classes.rightNav}>
+        <RightNav />
+      </div>
     </div>
   );
 }

@@ -1,5 +1,5 @@
 // react
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 // next
 
 // react-jss
@@ -52,18 +52,67 @@ const useDividerWithDynamicBg = () => {
   return [ref, setBgColor];
 };
 
+// this is a test on active styles
+const useActiveStyles = (elStates, defaultStyles = {}, activeStyles = {}) => {
+  const _defaultStyles = (function () {
+    let styles = {};
+    for (let prop in elStates) {
+      styles[prop] = defaultStyles;
+    }
+    return styles;
+  })();
+
+  const initialStyles = (function () {
+    let styles = {};
+    for (let prop in elStates) {
+      if (elStates[prop] === "active") {
+        styles[prop] = activeStyles;
+      } else {
+        styles[prop] = defaultStyles;
+      }
+    }
+    return styles;
+  })();
+  const [styles, setStyles] = useState(initialStyles);
+  const resetStyles = () => {
+    setStyles(initialStyles);
+  };
+
+  const updateStyles = (label) => {
+    setStyles({ ..._defaultStyles, [label]: activeStyles });
+  };
+
+  return { styles, resetStyles, updateStyles };
+};
+
+// const { styles, resetStyles, updateStyles } = useActiveStyles(
+//   {
+//     Location: "default",
+//     "Cheek in": "default",
+//     "Check out": "default",
+//     Guests: "default",
+//   },
+//   {
+//     backgroundColor: "red",
+//   },
+//   {
+//     backgroundColor: "green",
+//   }
+// );
+
 export default function FullFeaturedSearchInput() {
   const classes = useStyles();
   const theme = useTheme();
-
   const [locCheckDivRef, setLocCheckDivBg] = useDividerWithDynamicBg();
   const [checkGuestsDivRef, setCheckGuestsDivBg] = useDividerWithDynamicBg();
 
-  // each search card should have a state from [default, hover, focus]
-  // not sure how to handle it.
-  // may be the root parent should have state...
-  // because other SearchCard's state depends on each other
-  // we have four card... location, CheckIn, checkOut, Guests
+  const defaultStates = {
+    Location: "default",
+    Guests: "default",
+    "Check in": "default",
+    "Check out": "default",
+  };
+  const [elStates, setElStates] = useState(defaultStates);
 
   // a single function to control visibility
   const setDividerBg = (label, bg) => {
@@ -74,15 +123,64 @@ export default function FullFeaturedSearchInput() {
     }
   };
 
+  // determining card's inline styles
+  const styles = {
+    default: {
+      // backgroundColor: theme.background.color.transparent,
+    },
+    hover: {
+      // backgroundColor: theme.background.color.secondary,
+    },
+    active: {
+      backgroundColor: theme.palette.common.white,
+      boxShadow: theme.shadows.fullFeaturedSearch,
+    },
+  };
+
+  const updateElStates = (label, state) => {
+    // this needs to be rafactor
+    if (
+      elStates[label] === "active" &&
+      (state === "hover" || state === "default")
+    ) {
+      return;
+    }
+
+    state === "active" && setElStates({ ...defaultStates, [label]: state });
+    (state === "hover" || state === "default") &&
+      setElStates({ ...elStates, [label]: state });
+  };
+
   return (
     <div className={classes.searchInput}>
-      <Location setDividerBg={setDividerBg} />
+      <Location
+        setDividerBg={setDividerBg}
+        cardStyle={styles[elStates["Location"]]}
+        cardState={elStates["Location"]}
+        updateElStates={updateElStates}
+      />
       {/* hide this div on hover over location  + Check in */}
       <div ref={locCheckDivRef} className={classes.divider}></div>
-      <Check setDividerBg={setDividerBg} />
+      <Check
+        setDividerBg={setDividerBg}
+        checkStyles={{
+          "Check in": styles[elStates["Check in"]],
+          "Check out": styles[elStates["Check out"]],
+        }}
+        checkStates={{
+          "Check in": elStates["Check in"],
+          "Check out": elStates["Check out"],
+        }}
+        updateElStates={updateElStates}
+      />
       {/* hide this div on hover over Guests  + Check out */}
       <div ref={checkGuestsDivRef} className={classes.divider}></div>
-      <Guests setDividerBg={setDividerBg} />
+      <Guests
+        setDividerBg={setDividerBg}
+        cardStyle={styles[elStates["Guests"]]}
+        cardState={elStates["Guests"]}
+        updateElStates={updateElStates}
+      />
     </div>
   );
 }
