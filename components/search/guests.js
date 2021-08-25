@@ -23,6 +23,7 @@ const useStyles = createUseStyles((theme) => ({
     justifyContent: "space-between",
     border: theme.border.transparent,
     borderRadius: 32,
+    backgroundColor: theme.background.color.transparent,
     "&:hover": {
       backgroundColor: theme.background.color.secondary,
     },
@@ -49,15 +50,27 @@ const useStyles = createUseStyles((theme) => ({
   },
 }));
 
-export default function Guests({ setDividerBg = (f) => f }) {
+export default function Guests({
+  setDividerBg = (f) => f,
+  cardStyle = {},
+  cardState = "default",
+  updateElStates = (f) => f,
+}) {
   const classes = useStyles();
   return (
-    <div className={classes.guests}>
+    <div className={classes.guests} style={{ ...cardStyle }}>
       <div className={classes.card}>
         <SearchCard
           label="Guests"
           placeholder="Add guests"
           setDividerBg={setDividerBg}
+          cardStyle={
+            cardState === "active"
+              ? { backgroundColor: cardStyle.backgroundColor }
+              : {}
+          }
+          cardState={cardState}
+          updateElStates={updateElStates}
         />
       </div>
       <div className={classes.searchIcon}>

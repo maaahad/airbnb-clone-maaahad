@@ -42,9 +42,10 @@ const useDividerWithDynamicBg = () => {
 };
 
 export default function Check({
-  dividerVisibilityOnMouseEnter = (f) => f,
-  dividerVisibilityOnMouseLeave = (f) => f,
   setDividerBg = (f) => f,
+  checkStyles = {},
+  checkStates = {},
+  updateElStates = (f) => f,
 }) {
   const theme = useTheme();
   const classes = useStyles();
@@ -62,6 +63,9 @@ export default function Check({
           label="Check in"
           placeholder="Add dates"
           setDividerBg={handleDivBg}
+          cardStyle={checkStyles["Check in"]}
+          cardState={checkStates["Check in"]}
+          updateElStates={updateElStates}
         />
       </div>
       <div ref={checkDivRef} className={classes.divider}></div>
@@ -70,6 +74,9 @@ export default function Check({
           label="Check out"
           placeholder="Add dates"
           setDividerBg={handleDivBg}
+          cardStyle={checkStyles["Check out"]}
+          cardState={checkStates["Check out"]}
+          updateElStates={updateElStates}
         />
       </div>
     </div>

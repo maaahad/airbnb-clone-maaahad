@@ -49,15 +49,14 @@ const useDynamicPlaceholder = (ref, text) => {
 
 export default function Location({
   setDividerBg = (f) => f,
-  cardStyles = {},
-  updateStyles = (f) => f,
+  cardStyle = {},
+  cardState = "default",
+  updateElStates = (f) => f,
 }) {
   const text = "Where are you going?";
   const classes = useStyles();
   const locationRef = useRef();
   const placeholder = useDynamicPlaceholder(locationRef, text);
-
-  console.log(cardStyles);
 
   return (
     <div ref={locationRef} className={classes.location}>
@@ -65,8 +64,9 @@ export default function Location({
         label="Location"
         placeholder={placeholder}
         setDividerBg={setDividerBg}
-        cardStyles={cardStyles}
-        updateStyles={updateStyles}
+        cardStyle={cardStyle}
+        cardState={cardState}
+        updateElStates={updateElStates}
       />
     </div>
   );
