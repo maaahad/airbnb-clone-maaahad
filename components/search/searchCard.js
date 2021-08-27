@@ -34,45 +34,19 @@ const useStyles = createUseStyles((theme) => ({
     paddingBottom: 2,
     ...theme.typography.searchCardLavel,
   },
-  searchPlaceholder: {
+  searchSublabel: {
     color: theme.typography.color.secondary,
     ...theme.typography.searchCardPlaceholder,
   },
 }));
 
-export default function SearchCard({
-  label,
-  placeholder,
-  setDividerBg = (f) => f,
-  cardStyle = {},
-  cardState = "default",
-  updateElStates = (f) => f,
-}) {
-  // const theme = useTheme();
+export default function SearchCard({ card }) {
   const classes = useStyles();
-  // const update = (state, bgColor) => {
-  //   if (cardState === "active") return;
-  //   setDividerBg(label, bgColor);
-  //   updateElStates(label, state);
-  // };
-  // const handleMouseEnter = (event) => {
-  //   // NOTE: need to check whether this card is a neighbouring card
-  //   // in that case bgColor should be theme.background.color.secondary
-  //   update("hover", theme.background.color.transparent);
-  // };
-
-  // const handleMouseLeave = (event) => {
-  //   update("default", theme.background.color.secondary);
-  // };
-
-  // const handleOnClick = (event) => {
-  //   update("active", theme.background.color.transparent);
-  // };
 
   return (
-    <div className={classes.searchCard} style={{ ...cardStyle }}>
-      <div className={classes.searchLabel}>{label}</div>
-      <div className={classes.searchPlaceholder}>{placeholder}</div>
+    <div className={classes.searchCard} style={{ ...card.style }}>
+      <div className={classes.searchLabel}>{card.label}</div>
+      <div className={classes.searchSublabel}>{card.sublabel}</div>
     </div>
   );
 }

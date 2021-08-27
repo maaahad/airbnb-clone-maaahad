@@ -17,7 +17,7 @@ const useStyles = createUseStyles((theme) => ({
 }));
 
 // custom hook to use dynamic placeholder
-const useDynamicPlaceholder = (ref, text) => {
+const useDynamicSublabel = (ref, text) => {
   const [placeholder, setPlaceholder] = useState("");
 
   const resizePlaceholder = () => {
@@ -42,17 +42,16 @@ const useDynamicPlaceholder = (ref, text) => {
 };
 
 export default function Location({
-  label,
+  searchCard,
   setDividerBg = (f) => f,
   cardStyle = {},
   cardState = "default",
   updateElStates = (f) => f,
 }) {
-  const text = "Where are you going?";
   const theme = useTheme();
   const classes = useStyles();
   const locationRef = useRef();
-  const placeholder = useDynamicPlaceholder(locationRef, text);
+  const _sublabel = useDynamicSublabel(locationRef, searchCard.sublabel);
 
   const update = (state, bgColor) => {
     if (cardState === "active") return;
@@ -78,17 +77,14 @@ export default function Location({
     <div
       ref={locationRef}
       className={classes.location}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onClick={handleOnClick}
+      // onMouseEnter={handleMouseEnter}
+      // onMouseLeave={handleMouseLeave}
+      // onClick={handleOnClick}
     >
       <SearchCard
-        label={label}
-        placeholder={placeholder}
-        setDividerBg={setDividerBg}
+        label={searchCard.label}
+        sublabel={_sublabel}
         cardStyle={cardStyle}
-        cardState={cardState}
-        updateElStates={updateElStates}
       />
     </div>
   );

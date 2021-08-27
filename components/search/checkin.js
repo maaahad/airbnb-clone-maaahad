@@ -15,8 +15,7 @@ const useStyles = createUseStyles((theme) => ({
 }));
 
 export default function Checkin({
-  label,
-  activeElAdjacents = [],
+  searchCard,
   setDividerBg = (f) => f,
   cardStyle = {},
   cardState = "default",
@@ -48,17 +47,14 @@ export default function Checkin({
   return (
     <div
       className={classes.checkin}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onClick={handleOnClick}
+      // onMouseEnter={handleMouseEnter}
+      // onMouseLeave={handleMouseLeave}
+      // onClick={handleOnClick}
     >
       <SearchCard
-        label={label}
-        placeholder="Add dates"
-        setDividerBg={setDividerBg}
+        label={searchCard.label}
+        sublabel={searchCard.sublabel}
         cardStyle={cardStyle}
-        cardState={cardState}
-        updateElStates={updateElStates}
       />
     </div>
   );

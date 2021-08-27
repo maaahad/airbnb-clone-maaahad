@@ -52,7 +52,7 @@ const useStyles = createUseStyles((theme) => ({
 }));
 
 export default function Guests({
-  label,
+  searchCard,
   setDividerBg = (f) => f,
   cardStyle = {},
   cardState = "default",
@@ -86,22 +86,19 @@ export default function Guests({
     <div
       className={classes.guests}
       style={{ ...cardStyle }}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onClick={handleOnClick}
+      // onMouseEnter={handleMouseEnter}
+      // onMouseLeave={handleMouseLeave}
+      // onClick={handleOnClick}
     >
       <div className={classes.card}>
         <SearchCard
-          label={label}
-          placeholder="Add guests"
-          setDividerBg={setDividerBg}
+          label={searchCard.label}
+          sublabel={searchCard.sublabel}
           cardStyle={
             cardState === "active"
               ? { backgroundColor: cardStyle.backgroundColor }
               : {}
           }
-          cardState={cardState}
-          updateElStates={updateElStates}
         />
       </div>
       <div className={classes.searchIcon}>
