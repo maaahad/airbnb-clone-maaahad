@@ -23,10 +23,7 @@ const useStyles = createUseStyles((theme) => ({
     border: theme.border.transparent,
     borderRadius: 32,
     backgroundColor: theme.background.color.transparent,
-    "&:focus": {
-      // backgroundColor: theme.palette.common.white,
-      // backgroundColor: "red",
-    },
+    "&:focus": {},
     "&:hover": {
       backgroundColor: theme.background.color.secondary,
       cursor: "pointer",
@@ -51,38 +48,29 @@ export default function SearchCard({
   cardState = "default",
   updateElStates = (f) => f,
 }) {
-  // each card will receive it's state and will update it root background and box-shadow
-  // use useDividerWithDynamicBg like hoos, or make it general to control background
-
-  const theme = useTheme();
+  // const theme = useTheme();
   const classes = useStyles();
-  const handleMouseEnter = (event) => {
-    if (cardState === "active") return;
-    setDividerBg(label, theme.background.color.transparent);
-    updateElStates(label, "hover");
-  };
+  // const update = (state, bgColor) => {
+  //   if (cardState === "active") return;
+  //   setDividerBg(label, bgColor);
+  //   updateElStates(label, state);
+  // };
+  // const handleMouseEnter = (event) => {
+  //   // NOTE: need to check whether this card is a neighbouring card
+  //   // in that case bgColor should be theme.background.color.secondary
+  //   update("hover", theme.background.color.transparent);
+  // };
 
-  const handleMouseLeave = (event) => {
-    // if this is active card, divider bg should not be changed
-    if (cardState === "active") return;
-    setDividerBg(label, theme.background.color.secondary);
-    updateElStates(label, "default");
-  };
+  // const handleMouseLeave = (event) => {
+  //   update("default", theme.background.color.secondary);
+  // };
 
-  const handleOnClick = (event) => {
-    if (cardState === "active") return;
-    updateElStates(label, "active");
-    setDividerBg(label, theme.background.color.transparent);
-  };
+  // const handleOnClick = (event) => {
+  //   update("active", theme.background.color.transparent);
+  // };
 
   return (
-    <div
-      className={classes.searchCard}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onClick={handleOnClick}
-      style={{ ...cardStyle }}
-    >
+    <div className={classes.searchCard} style={{ ...cardStyle }}>
       <div className={classes.searchLabel}>{label}</div>
       <div className={classes.searchPlaceholder}>{placeholder}</div>
     </div>

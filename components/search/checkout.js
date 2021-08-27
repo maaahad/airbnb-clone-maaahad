@@ -1,5 +1,4 @@
 // react
-import React, { useState, useRef, useLayoutEffect } from "react";
 // next
 
 // react-jss
@@ -10,49 +9,20 @@ import SearchCard from "./searchCard";
 
 // css
 const useStyles = createUseStyles((theme) => ({
-  location: {
-    flex: 1,
-    maxWidth: "calc(100% - 520px)",
+  checkout: {
+    width: "100%",
   },
 }));
 
-// custom hook to use dynamic placeholder
-const useDynamicPlaceholder = (ref, text) => {
-  const [placeholder, setPlaceholder] = useState("");
-
-  const resizePlaceholder = () => {
-    const totalWidth = window.getComputedStyle(ref.current).width.slice(0, -2);
-
-    const charsToAccomodate = Math.floor((parseInt(totalWidth) - 24 * 2) / 8);
-
-    setPlaceholder(
-      charsToAccomodate >= text.length
-        ? text
-        : text.slice(0, charsToAccomodate - 3) + "..."
-    );
-  };
-
-  useLayoutEffect(() => {
-    window.addEventListener("resize", resizePlaceholder);
-    resizePlaceholder();
-    return () => window.removeEventListener("resize", resizePlaceholder);
-  }, []);
-
-  return placeholder;
-};
-
-export default function Location({
+export default function Checkout({
   label,
   setDividerBg = (f) => f,
   cardStyle = {},
   cardState = "default",
   updateElStates = (f) => f,
 }) {
-  const text = "Where are you going?";
   const theme = useTheme();
   const classes = useStyles();
-  const locationRef = useRef();
-  const placeholder = useDynamicPlaceholder(locationRef, text);
 
   const update = (state, bgColor) => {
     if (cardState === "active") return;
@@ -76,15 +46,14 @@ export default function Location({
 
   return (
     <div
-      ref={locationRef}
-      className={classes.location}
+      className={classes.checkout}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={handleOnClick}
     >
       <SearchCard
         label={label}
-        placeholder={placeholder}
+        placeholder="Add dates"
         setDividerBg={setDividerBg}
         cardStyle={cardStyle}
         cardState={cardState}
